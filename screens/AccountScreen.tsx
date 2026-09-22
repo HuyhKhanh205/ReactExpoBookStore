@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Feather from '@expo/vector-icons/Feather';
 import Header from '../components/Header';
 
@@ -12,16 +13,16 @@ const MENU: { key: string; label: string; icon: React.ComponentProps<typeof Feat
   { key: 'settings', label: 'Cài đặt', icon: 'settings' },
 ];
 
-interface AccountScreenProps {
-  onCartPress?: () => void;
-  onOpenBookList?: () => void;
-  onOpenGrid3Columns?: () => void;
-}
+function AccountScreen() {
+  const navigation = useNavigation();
 
-function AccountScreen({ onCartPress, onOpenBookList, onOpenGrid3Columns }: AccountScreenProps) {
+  const goToCart = () => navigation.navigate('MainTabs', { screen: 'Cart' });
+  const openBookList = () => navigation.navigate('ExerciseList');
+  const openGrid3Columns = () => navigation.navigate('ExerciseGrid3');
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-      <Header title="Tài khoản" onCartPress={onCartPress} />
+      <Header title="Tài khoản" onCartPress={goToCart} />
 
       <ScrollView
         style={styles.scroll}
@@ -73,12 +74,12 @@ function AccountScreen({ onCartPress, onOpenBookList, onOpenGrid3Columns }: Acco
         {/* Lối vào 2 màn thử thách layout (Giờ 1 và Giờ 2) */}
         <Text style={styles.groupTitle}>Bài tập layout</Text>
         <View style={styles.menu}>
-          <Pressable style={styles.menuRow} onPress={onOpenBookList}>
+          <Pressable style={styles.menuRow} onPress={openBookList}>
             <Feather name="list" size={18} color="#3730A3" />
             <Text style={styles.menuLabel}>Thử thách Giờ 1 — danh sách card row</Text>
             <Feather name="chevron-right" size={18} color="#9CA3AF" />
           </Pressable>
-          <Pressable style={styles.menuRow} onPress={onOpenGrid3Columns}>
+          <Pressable style={styles.menuRow} onPress={openGrid3Columns}>
             <Feather name="columns" size={18} color="#3730A3" />
             <Text style={styles.menuLabel}>Thử thách Giờ 2 — lưới 3 cột</Text>
             <Feather name="chevron-right" size={18} color="#9CA3AF" />
