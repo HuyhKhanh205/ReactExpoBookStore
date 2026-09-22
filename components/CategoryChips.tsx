@@ -1,16 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
-const CATEGORIES = [
-  'Văn học',
-  'Kinh tế',
-  'Thiếu nhi',
-  'Kỹ năng sống',
-  'Truyện tranh',
-  'Ngoại ngữ',
-  'Tâm lý',
-  'Lịch sử',
-];
+import { CATEGORIES } from '../data';
 
 function CategoryChips() {
   return (
