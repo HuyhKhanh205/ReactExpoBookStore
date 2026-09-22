@@ -1,22 +1,29 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import Header from '../components/Header';
-import { BOOKS, Book, formatVnd } from '../data';
+import { BOOKS, formatVnd } from '../data';
+import { useCart } from '../context/CartContext';
+import { RootStackParamList } from '../navigation/types';
 
-interface BookDetailScreenProps {
-  book?: Book;
-  onBack?: () => void;
-  onAddToCart?: (book: Book) => void;
-}
-
-function BookDetailScreen({ book = BOOKS[0], onBack, onAddToCart }: BookDetailScreenProps) {
+function BookDetailScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
+  const route = useRoute<RouteProp<RootStackParamList, 'BookDetail'>>();
+  const { addToCart } = useCart();
+
+  const book = BOOKS.find((b) => b.id === route.params.bookId) ?? BOOKS[0];
+
+  const handleAddToCart = () => {
+    addToCart(book);
+    navigation.navigate('MainTabs', { screen: 'Cart' });
+  };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       {/* Header cố định: nút back quay lại trang chủ */}
-      <Header title={book.title} onBack={onBack} />
+      <Header title={book.title} onBack={() => navigation.goBack()} />
 
       {/* Vùng cố định phía trên: ảnh bìa lớn căn giữa */}
       <View style={styles.coverSection}>
@@ -56,7 +63,7 @@ function BookDetailScreen({ book = BOOKS[0], onBack, onAddToCart }: BookDetailSc
           <Text style={styles.bottomPriceLabel}>Tạm tính</Text>
           <Text style={styles.bottomPriceValue}>{formatVnd(book.price)}</Text>
         </View>
-        <Pressable style={styles.addButton} onPress={() => onAddToCart?.(book)}>
+        <Pressable style={styles.addButton} onPress={handleAddToCart}>
           <Text style={styles.addButtonText}>Thêm vào giỏ</Text>
         </Pressable>
       </View>

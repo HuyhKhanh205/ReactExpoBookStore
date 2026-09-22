@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Feather from '@expo/vector-icons/Feather';
 
-export type TabKey = 'home' | 'categories' | 'cart' | 'account';
+export type TabKey = 'Home' | 'Categories' | 'Cart' | 'Account';
 
 const TABS: { key: TabKey; label: string; icon: React.ComponentProps<typeof Feather>['name'] }[] = [
-  { key: 'home', label: 'Trang chủ', icon: 'home' },
-  { key: 'categories', label: 'Danh mục', icon: 'grid' },
-  { key: 'cart', label: 'Giỏ hàng', icon: 'shopping-cart' },
-  { key: 'account', label: 'Tài khoản', icon: 'user' },
+  { key: 'Home', label: 'Trang chủ', icon: 'home' },
+  { key: 'Categories', label: 'Danh mục', icon: 'grid' },
+  { key: 'Cart', label: 'Giỏ hàng', icon: 'shopping-cart' },
+  { key: 'Account', label: 'Tài khoản', icon: 'user' },
 ];
 
 const ACTIVE = '#3730A3';
@@ -34,7 +34,7 @@ function TabBar({ active, onChange, cartCount = 0 }: TabBarProps) {
           <Pressable key={tab.key} style={styles.item} onPress={() => onChange(tab.key)}>
             <View style={styles.iconWrapper}>
               <Feather name={tab.icon} size={22} color={color} />
-              {tab.key === 'cart' && cartCount > 0 ? (
+              {tab.key === 'Cart' && cartCount > 0 ? (
                 <View style={styles.badge}>
                   <Text style={styles.badgeText}>{cartCount > 99 ? '99+' : cartCount}</Text>
                 </View>

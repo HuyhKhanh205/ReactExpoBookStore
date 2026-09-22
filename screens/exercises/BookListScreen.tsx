@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable, FlexAlignType } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header';
 import BookCardRow from '../../components/BookCardRow';
 import { BOOKS } from '../../data';
 
-interface BookListScreenProps {
-  onBack?: () => void;
-}
-
 /** Thử thách Giờ 1: Header cố định + danh sách Book Card xếp chồng theo cột. */
-function BookListScreen({ onBack }: BookListScreenProps) {
+function BookListScreen() {
+  const navigation = useNavigation();
   const [align, setAlign] = useState<FlexAlignType>('flex-start');
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-      <Header title="Thử thách Giờ 1" onBack={onBack} showCart={false} />
+      <Header title="Thử thách Giờ 1" onBack={() => navigation.goBack()} showCart={false} />
 
       {/* flex: 1 để vùng nội dung chiếm hết phần còn lại của màn hình sau header */}
       <View style={styles.content}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header';
 import BookCard from '../../components/BookCard';
 import { BOOKS, Book, formatVnd } from '../../data';
@@ -8,10 +9,6 @@ import { BOOKS, Book, formatVnd } from '../../data';
 const SCREEN_PADDING = 12;
 const GAP = 8;
 const COLUMNS = 3;
-
-interface Grid3ColumnsScreenProps {
-  onBack?: () => void;
-}
 
 function Card({ book }: { book: Book }) {
   return (
@@ -26,7 +23,8 @@ function Card({ book }: { book: Book }) {
 }
 
 /** Thử thách Giờ 2: lưới 3 cột — so sánh cách dùng gap và cách dùng space-between + %. */
-function Grid3ColumnsScreen({ onBack }: Grid3ColumnsScreenProps) {
+function Grid3ColumnsScreen() {
+  const navigation = useNavigation();
   const { width } = useWindowDimensions();
 
   // width = (bề ngang khả dụng - tổng gap) / số cột
@@ -35,7 +33,7 @@ function Grid3ColumnsScreen({ onBack }: Grid3ColumnsScreenProps) {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-      <Header title="Thử thách Giờ 2" onBack={onBack} showCart={false} />
+      <Header title="Thử thách Giờ 2" onBack={() => navigation.goBack()} showCart={false} />
 
       <ScrollView
         style={styles.scroll}

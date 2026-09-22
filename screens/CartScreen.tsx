@@ -1,18 +1,17 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Feather from '@expo/vector-icons/Feather';
 import Header from '../components/Header';
-import { CartItem, formatVnd } from '../data';
+import { formatVnd } from '../data';
+import { useCart } from '../context/CartContext';
 
-interface CartScreenProps {
-  items: CartItem[];
-  onChangeQuantity?: (bookId: string, delta: number) => void;
-  onContinueShopping?: () => void;
-}
-
-function CartScreen({ items, onChangeQuantity, onContinueShopping }: CartScreenProps) {
+function CartScreen() {
+  const navigation = useNavigation();
+  const { items, changeQuantity } = useCart();
   const total = items.reduce((sum, item) => sum + item.book.price * item.quantity, 0);
+  const goToHome = () => navigation.navigate('MainTabs', { screen: 'Home' });
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
@@ -29,7 +28,7 @@ function CartScreen({ items, onChangeQuantity, onContinueShopping }: CartScreenP
           <View style={styles.empty}>
             <Feather name="shopping-cart" size={48} color="#C7D2FE" />
             <Text style={styles.emptyText}>Giỏ hàng đang trống</Text>
-            <Pressable style={styles.emptyButton} onPress={onContinueShopping}>
+            <Pressable style={styles.emptyButton} onPress={goToHome}>
               <Text style={styles.emptyButtonText}>Mua sắm ngay</Text>
             </Pressable>
           </View>
@@ -50,14 +49,14 @@ function CartScreen({ items, onChangeQuantity, onContinueShopping }: CartScreenP
                 <View style={styles.stepper}>
                   <Pressable
                     style={styles.stepperButton}
-                    onPress={() => onChangeQuantity?.(book.id, -1)}
+                    onPress={() => changeQuantity(book.id, -1)}
                   >
                     <Feather name="minus" size={14} color="#3730A3" />
                   </Pressable>
                   <Text style={styles.qtyText}>{quantity}</Text>
                   <Pressable
                     style={styles.stepperButton}
-                    onPress={() => onChangeQuantity?.(book.id, 1)}
+                    onPress={() => changeQuantity(book.id, 1)}
                   >
                     <Feather name="plus" size={14} color="#3730A3" />
                   </Pressable>
